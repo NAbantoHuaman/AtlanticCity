@@ -13,8 +13,8 @@ python-dotenv==1.0.0
 
 # Data Processing (Compatible versions)
 openpyxl==3.1.2
-pandas==2.0.3  # Stable version
-numpy==1.24.3  # Required for pandas compatibility
+pandas==1.5.3  # Ultra-stable version for Python 3.10
+numpy==1.23.5  # Ultra-stable version for Python 3.10
 
 # Security
 cryptography==41.0.8
