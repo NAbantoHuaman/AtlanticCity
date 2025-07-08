@@ -1,24 +1,20 @@
+# Core Database Dependencies
 pyodbc==5.0.1
+pymysql==1.1.0
+sqlalchemy==2.0.23
 
-# Desktop Application Dependencies
-PyQt5==5.15.10
-matplotlib==3.8.2
-networkx==3.5
-
-# Web Application Dependencies
+# Web Application Dependencies (Production)
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 python-multipart==0.0.6
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 python-dotenv==1.0.0
-openpyxl==3.1.2
-pandas==2.1.4
 
-# Database
-sqlite3  # Built-in with Python
-pymysql==1.1.0  # MySQL connector for PlanetScale
-sqlalchemy==2.0.23  # ORM for database operations
+# Data Processing (Compatible versions)
+openpyxl==3.1.2
+pandas==2.2.0  # Compatible with Python 3.13
+numpy==1.26.3  # Required for pandas compatibility
 
 # Security
 cryptography==41.0.8
@@ -27,3 +23,9 @@ bcrypt==4.1.2
 # Utilities
 typing-extensions==4.8.0
 pydantic==2.5.0
+
+# Desktop Dependencies (Optional - only for local development)
+# Uncomment if needed locally:
+# PyQt5==5.15.10
+# matplotlib==3.8.2
+# networkx==3.5
