@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino Atlantic City - Sistema de Gestión</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="casino-logo">
+                    <i class="fas fa-dice"></i>
+                    <h1>Casino Atlantic City</h1>
+                </div>
+                <p>Sistema de Gestión de Clientes</p>
+            </div>
+            
+            <div class="login-tabs">
+                <button class="tab-btn active" onclick="showLoginTab()">Iniciar Sesión</button>
+                <button class="tab-btn" onclick="showRegisterTab()">Registrarse</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="login-form active">
+                <div class="login-type-selector">
+                    <label class="radio-option">
+                        <input type="radio" name="loginType" value="cliente" checked>
+                        <span class="radio-custom"></span>
+                        Cliente (Solo Documento)
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="loginType" value="admin">
+                        <span class="radio-custom"></span>
+                        Administrador
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username" id="usernameLabel">Número de Documento</label>
+                    <div class="input-group">
+                        <i class="fas fa-id-card" id="usernameIcon"></i>
+                        <input type="text" id="username" name="username" required placeholder="Ingrese su número de documento">
+                    </div>
+                </div>
+                
+                <div class="form-group" id="passwordGroup" style="display: none;">
+                    <label for="password">Contraseña</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Ingrese su contraseña">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Iniciar Sesión
+                </button>
+            </form>
+            
+            <!-- Register Form -->
+            <form id="registerForm" class="login-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="regTipoDocumento">Tipo de Documento</label>
+                        <select id="regTipoDocumento" name="tipo_documento" required>
+                            <option value="CC">Cédula de Ciudadanía</option>
+                            <option value="CE">Cédula de Extranjería</option>
+                            <option value="PP">Pasaporte</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regNumeroDocumento">Número de Documento</label>
+                        <input type="text" id="regNumeroDocumento" name="numero_documento" required minlength="6">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="regNombres">Nombres</label>
+                        <input type="text" id="regNombres" name="nombres" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regApellidos">Apellidos</label>
+                        <input type="text" id="regApellidos" name="apellidos" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" name="email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regTelefono">Teléfono</label>
+                        <input type="tel" id="regTelefono" name="telefono">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="regFechaNacimiento">Fecha de Nacimiento</label>
+                        <input type="date" id="regFechaNacimiento" name="fecha_nacimiento">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regCiudad">Ciudad</label>
+                        <input type="text" id="regCiudad" name="ciudad">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regDireccion">Dirección</label>
+                    <input type="text" id="regDireccion" name="direccion">
+                </div>
+                
+                <button type="submit" class="btn-primary btn-full">
+                    <i class="fas fa-user-plus"></i> Registrarse
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p>&copy; 2024 Casino Atlantic City. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aplicación Principal -->
+    <div id="mainApp" class="main-app" style="display: none;">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="casino-logo">
+                    <i class="fas fa-dice"></i>
+                    <span>Casino Atlantic City</span>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <nav class="main-nav">
+                    <button class="nav-btn active" data-section="dashboard">
+                        <i class="fas fa-chart-line"></i>
+                        Dashboard
+                    </button>
+                    <button class="nav-btn" data-section="clientes">
+                        <i class="fas fa-users"></i>
+                        Clientes
+                    </button>
+                    <button class="nav-btn" data-section="promociones">
+                        <i class="fas fa-gift"></i>
+                        Promociones
+                    </button>
+                    <button class="nav-btn" data-section="transacciones">
+                        <i class="fas fa-credit-card"></i>
+                        Transacciones
+                    </button>
+                    <button class="nav-btn" data-section="tickets">
+                        <i class="fas fa-headset"></i>
+                        Atención
+                    </button>
+                    <button class="nav-btn" data-section="reportes">
+                        <i class="fas fa-chart-bar"></i>
+                        Reportes
+                    </button>
+                </nav>
+            </div>
+            
+            <div class="header-right">
+                <div class="user-menu">
+                    <span class="user-name">Administrador</span>
+                    <button class="btn-logout" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido Principal -->
+        <main class="app-main">
+            <!-- Dashboard -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Dashboard</h2>
+                    <button class="btn-refresh" onclick="loadDashboard()">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalClientes">0</h3>
+                            <p>Total Clientes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="clientesActivos">0</h3>
+                            <p>Clientes Activos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="clientesVip">0</h3>
+                            <p>Clientes VIP</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="promedioGastado">$0</h3>
+                            <p>Promedio Gastado</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalPuntos">0</h3>
+                            <p>Total Puntos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="ticketsAbiertos">0</h3>
+                            <p>Tickets Abiertos</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-charts">
+                    <div class="chart-container">
+                        <h3>Transacciones de Hoy</h3>
+                        <div id="transaccionesChart" class="chart-placeholder">
+                            <i class="fas fa-chart-pie"></i>
+                            <p>Cargando datos...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Clientes -->
+            <section id="clientes" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Gestión de Clientes</h2>
+                    <button class="btn-primary" onclick="showClienteModal()">
+                        <i class="fas fa-plus"></i> Nuevo Cliente
+                    </button>
+                </div>
+                
+                <div class="filters-bar">
+                    <div class="filter-group">
+                        <label>Tipo de Cliente:</label>
+                        <select id="filtroTipoCliente">
+                            <option value="">Todos</option>
+                            <option value="nuevo">Nuevo</option>
+                            <option value="regular">Regular</option>
+                            <option value="frecuente">Frecuente</option>
+                            <option value="vip">VIP</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Estado:</label>
+                        <select id="filtroEstadoCliente">
+                            <option value="">Todos</option>
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Ciudad:</label>
+                        <input type="text" id="filtroCiudad" placeholder="Filtrar por ciudad">
+                    </div>
+                    
+                    <button class="btn-secondary" onclick="filtrarClientes()">
+                        <i class="fas fa-search"></i> Filtrar
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table id="tablaClientes" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Documento</th>
+                                <th>Nombre Completo</th>
+                                <th>Email</th>
+                                <th>Tipo</th>
+                                <th>Visitas</th>
+                                <th>Total Gastado</th>
+                                <th>Puntos</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Datos cargados dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Promociones -->
+            <section id="promociones" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-gift"></i> Gestión de Promociones</h2>
+                    <button class="btn-primary" onclick="showPromocionModal()">
+                        <i class="fas fa-plus"></i> Nueva Promoción
+                    </button>
+                </div>
+                
+                <div class="promociones-grid" id="promocionesGrid">
+                    <!-- Promociones cargadas dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Transacciones -->
+            <section id="transacciones" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-credit-card"></i> Transacciones</h2>
+                    <button class="btn-primary" onclick="showTransaccionModal()">
+                        <i class="fas fa-plus"></i> Nueva Transacción
+                    </button>
+                </div>
+                
+                <div class="filters-bar">
+                    <div class="filter-group">
+                        <label>Cliente ID:</label>
+                        <input type="number" id="filtroClienteId" placeholder="ID del cliente">
+                    </div>
+                    
+                    <button class="btn-secondary" onclick="cargarTransacciones()">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table id="tablaTransacciones" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                                <th>Descripción</th>
+                                <th>Fecha</th>
+                                <th>Ubicación</th>
+                                <th>Puntos</th>
+                                <th>Método Pago</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Datos cargados dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tickets -->
+            <section id="tickets" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-headset"></i> Atención al Cliente</h2>
+                    <button class="btn-primary" onclick="showTicketModal()">
+                        <i class="fas fa-plus"></i> Nuevo Ticket
+                    </button>
+                </div>
+                
+                <div class="tickets-container">
+                    <div class="tickets-grid" id="ticketsGrid">
+                        <!-- Tickets cargados dinámicamente -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reportes -->
+            <section id="reportes" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Reportes</h2>
+                </div>
+                
+                <div class="reportes-grid">
+                    <div class="reporte-card">
+                        <h3><i class="fas fa-users"></i> Reporte de Clientes</h3>
+                        <p>Generar reporte detallado de clientes con filtros personalizados</p>
+                        <button class="btn-primary" onclick="generarReporteClientes()">
+                            <i class="fas fa-download"></i> Generar
+                        </button>
+                    </div>
+                    
+                    <div class="reporte-card">
+                        <h3><i class="fas fa-credit-card"></i> Reporte de Transacciones</h3>
+                        <p>Análisis de transacciones por período de tiempo</p>
+                        <div class="date-range">
+                            <input type="date" id="fechaInicio" class="form-control">
+                            <span>hasta</span>
+                            <input type="date" id="fechaFin" class="form-control">
+                        </div>
+                        <button class="btn-primary" onclick="generarReporteTransacciones()">
+                            <i class="fas fa-download"></i> Generar
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vista específica para clientes -->
+            <section id="clienteView" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-user"></i> Mi Perfil</h2>
+                </div>
+                
+                <!-- Información del cliente -->
+                <div class="cliente-info-grid">
+                    <div class="info-card">
+                        <div class="info-header">
+                            <i class="fas fa-user-circle"></i>
+                            <h3>Información Personal</h3>
+                        </div>
+                        <div class="info-content">
+                            <p><strong>Nombre:</strong> <span id="clienteNombre">-</span></p>
+                            <p><strong>Tipo de Cliente:</strong> <span id="clienteTipo">-</span></p>
+                            <p><strong>Última Visita:</strong> <span id="clienteUltimaVisita">-</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-header">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Estadísticas</h3>
+                        </div>
+                        <div class="info-content">
+                            <p><strong>Total de Visitas:</strong> <span id="clienteVisitas">0</span></p>
+                            <p><strong>Total Gastado:</strong> <span id="clienteGastado">$0</span></p>
+                            <p><strong>Puntos Acumulados:</strong> <span id="clientePuntos">0</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transacciones del cliente -->
+                <div class="cliente-section">
+                    <h3><i class="fas fa-credit-card"></i> Mis Últimas Transacciones</h3>
+                    <div class="table-container">
+                        <table id="clienteTransacciones" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo</th>
+                                    <th>Monto</th>
+                                    <th>Descripción</th>
+                                    <th>Puntos Ganados</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Se llena dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Promociones disponibles -->
+                <div class="cliente-section">
+                    <h3><i class="fas fa-gift"></i> Promociones Disponibles</h3>
+                    <div id="clientePromociones" class="promociones-cliente-grid">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </div>
+                
+                <div class="cliente-section">
+                    <h3><i class="fas fa-headset"></i> Atención al Cliente</h3>
+                    <div class="atencion-cliente-container">
+                        <div class="ticket-form-card">
+                            <h4>¿Necesitas ayuda?</h4>
+                            <p>Envíanos tu consulta y te responderemos lo antes posible.</p>
+                            <form id="clienteTicketForm" class="ticket-form">
+                                <div class="form-group">
+                                    <label for="asuntoTicket">Asunto</label>
+                                    <input type="text" id="asuntoTicket" name="asunto" required placeholder="Describe brevemente tu consulta">
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoriaTicket">Categoría</label>
+                                    <select id="categoriaTicket" name="categoria" required>
+                                        <option value="">Selecciona una categoría</option>
+                                        <option value="cuenta">Problemas con mi cuenta</option>
+                                        <option value="promociones">Consultas sobre promociones</option>
+                                        <option value="puntos">Puntos y beneficios</option>
+                                        <option value="transacciones">Historial de transacciones</option>
+                                        <option value="general">Consulta general</option>
+                                        <option value="sugerencia">Sugerencia</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="descripcionTicket">Descripción</label>
+                                    <textarea id="descripcionTicket" name="descripcion" rows="4" required placeholder="Describe tu consulta en detalle..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Enviar Consulta
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="mis-tickets-card">
+                            <h4>Mis Consultas</h4>
+                            <div id="clienteTickets" class="tickets-list">
+                                <!-- Se llena dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Cliente -->
+    <div id="clienteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="clienteModalTitle">Nuevo Cliente</h3>
+                <button class="modal-close" onclick="closeModal('clienteModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="clienteForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipoDocumento">Tipo de Documento</label>
+                        <select id="tipoDocumento" name="tipo_documento" required>
+                            <option value="CC">Cédula de Ciudadanía</option>
+                            <option value="CE">Cédula de Extranjería</option>
+                            <option value="PP">Pasaporte</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="numeroDocumento">Número de Documento</label>
+                        <input type="text" id="numeroDocumento" name="numero_documento" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombres">Nombres</label>
+                        <input type="text" id="nombres" name="nombres" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" id="apellidos" name="apellidos" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                        <input type="date" id="fechaNacimiento" name="fecha_nacimiento">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ciudad">Ciudad</label>
+                        <input type="text" id="ciudad" name="ciudad">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" name="direccion">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('clienteModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Promoción -->
+    <div id="promocionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nueva Promoción</h3>
+                <button class="modal-close" onclick="closeModal('promocionModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="promocionForm" class="modal-form">
+                <div class="form-group">
+                    <label for="tituloPromocion">Título</label>
+                    <input type="text" id="tituloPromocion" name="titulo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descripcionPromocion">Descripción</label>
+                    <textarea id="descripcionPromocion" name="descripcion" rows="3"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipoPromocion">Tipo</label>
+                        <select id="tipoPromocion" name="tipo" required>
+                            <option value="descuento">Descuento</option>
+                            <option value="puntos_bonus">Puntos Bonus</option>
+                            <option value="bebida_gratis">Bebida Gratis</option>
+                            <option value="entrada_gratis">Entrada Gratis</option>
+                            <option value="cashback">Cashback</option>
+                            <option value="torneo_especial">Torneo Especial</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="valorPromocion">Valor</label>
+                        <input type="number" id="valorPromocion" name="valor" step="0.01" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fechaInicioPromocion">Fecha Inicio</label>
+                        <input type="datetime-local" id="fechaInicioPromocion" name="fecha_inicio" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fechaFinPromocion">Fecha Fin</label>
+                        <input type="datetime-local" id="fechaFinPromocion" name="fecha_fin" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clienteIdPromocion">Cliente ID (Opcional)</label>
+                        <input type="number" id="clienteIdPromocion" name="cliente_id">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="usosMaximos">Usos Máximos</label>
+                        <input type="number" id="usosMaximos" name="usos_maximos" value="1" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="condicionesPromocion">Condiciones</label>
+                    <textarea id="condicionesPromocion" name="condiciones" rows="2"></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('promocionModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Crear Promoción
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Transacción -->
+    <div id="transaccionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nueva Transacción</h3>
+                <button class="modal-close" onclick="closeModal('transaccionModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="transaccionForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clienteIdTransaccion">Cliente ID</label>
+                        <input type="number" id="clienteIdTransaccion" name="cliente_id" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tipoTransaccion">Tipo</label>
+                        <select id="tipoTransaccion" name="tipo" required>
+                            <option value="ingreso">Ingreso</option>
+                            <option value="juego">Juego</option>
+                            <option value="consumo">Consumo</option>
+                            <option value="canje_promocion">Canje Promoción</option>
+                            <option value="retiro">Retiro</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="montoTransaccion">Monto</label>
+                        <input type="number" id="montoTransaccion" name="monto" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="metodoPago">Método de Pago</label>
+                        <select id="metodoPago" name="metodo_pago">
+                            <option value="efectivo">Efectivo</option>
+                            <option value="tarjeta_credito">Tarjeta de Crédito</option>
+                            <option value="tarjeta_debito">Tarjeta de Débito</option>
+                            <option value="transferencia">Transferencia</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descripcionTransaccion">Descripción</label>
+                    <input type="text" id="descripcionTransaccion" name="descripcion">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ubicacionTransaccion">Ubicación</label>
+                        <input type="text" id="ubicacionTransaccion" name="ubicacion" placeholder="Mesa, máquina, bar, etc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="numeroReferencia">Número de Referencia</label>
+                        <input type="text" id="numeroReferencia" name="numero_referencia">
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('transaccionModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Registrar Transacción
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Ticket -->
+    <div id="ticketModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Ticket de Atención</h3>
+                <button class="modal-close" onclick="closeModal('ticketModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="ticketForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clienteIdTicket">Cliente ID</label>
+                        <input type="number" id="clienteIdTicket" name="cliente_id" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tipoTicket">Tipo</label>
+                        <select id="tipoTicket" name="tipo" required>
+                            <option value="queja">Queja</option>
+                            <option value="sugerencia">Sugerencia</option>
+                            <option value="consulta">Consulta</option>
+                            <option value="reclamo">Reclamo</option>
+                            <option value="soporte_tecnico">Soporte Técnico</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prioridadTicket">Prioridad</label>
+                        <select id="prioridadTicket" name="prioridad" required>
+                            <option value="BAJA">Baja</option>
+                            <option value="MEDIA" selected>Media</option>
+                            <option value="ALTA">Alta</option>
+                            <option value="CRITICA">Crítica</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoriaTicketAdmin">Categoría</label>
+                        <input type="text" id="categoriaTicketAdmin" name="categoria" placeholder="Ej: Juegos, Servicio, Técnico">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="asuntoTicketAdmin">Asunto</label>
+                    <input type="text" id="asuntoTicketAdmin" name="asunto" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descripcionTicketAdmin">Descripción</label>
+                    <textarea id="descripcionTicketAdmin" name="descripcion" rows="4" required></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('ticketModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Crear Ticket
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Cargando...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="/static/app.js?v=1.1"></script>
+</body>
+</html>
